@@ -6,7 +6,7 @@ class GraphBuilder:
     def __init__(self, model ):
         self.graph_builder = StateGraph(State)
         self.llm = model
-
+        
     def basic_chatbot_build_graph(self):
         """
         Docstring for basic_chatbot_build_graph
@@ -23,8 +23,10 @@ class GraphBuilder:
         self.graph_builder.add_edge(START, "basic_chatbot_node")
         self.graph_builder.add_edge("basic_chatbot_node", END)
 
-        graph = self.graph_builder.compile()
+    def set_graph_builder(self, usecase):
 
-        return graph
+        if usecase.lower()=="basic chatbot":
+            graph = self.basic_chatbot_build_graph().compile()
+            return graph
 
         
