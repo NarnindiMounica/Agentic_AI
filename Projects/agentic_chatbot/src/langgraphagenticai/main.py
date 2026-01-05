@@ -50,11 +50,18 @@ def load_langgraph_agenticai_app():
             try:
 
                 graph = obj_graph_builder.set_graph_builder(usecase=usecase)
-                DisplayResultStreamlit(usecase, graph, user_message).display_result_on_ui()
+                
 
             except Exception as e:
                 print(f"Error occurred while setting up graph: {e}")
                 return
+            
+            try:
+                DisplayResultStreamlit(usecase, graph, user_message).display_result_on_ui()
+
+            except Exception as e:
+                print(f"Error occurred while displaying results on UI: {e}")
+                return    
 
 
 

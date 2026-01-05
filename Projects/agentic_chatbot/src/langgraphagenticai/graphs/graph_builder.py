@@ -22,11 +22,13 @@ class GraphBuilder:
 
         self.graph_builder.add_edge(START, "basic_chatbot_node")
         self.graph_builder.add_edge("basic_chatbot_node", END)
+        return self.graph_builder
 
     def set_graph_builder(self, usecase):
 
         if usecase.lower()=="basic chatbot":
-            graph = self.basic_chatbot_build_graph().compile()
+            graph_built = self.basic_chatbot_build_graph()
+            graph = graph_built.compile()
             return graph
 
         
