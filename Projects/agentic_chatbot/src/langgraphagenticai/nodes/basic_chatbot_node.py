@@ -18,4 +18,15 @@ class BasicChatbotNode:
 
         response = self.llm.invoke(state['messages']) 
 
-        return {"messages": response}  
+        return {"messages": response}
+
+    def tools_chatbot_node(self, state:State)->dict:
+        """
+        Docstring for tools_chatbot_node
+        
+        Process the input state and generates a chatbot response considering the tools bind to the model
+        """
+
+        response = self.llm.invoke(state['messages']) 
+
+        return {"messages": "Tools Integration: " + response.content}  
