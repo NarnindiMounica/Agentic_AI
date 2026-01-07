@@ -28,33 +28,57 @@ def load_langgraph_agenticai_app():
 
     if user_message:
         try:
+            obj_groqllm = GroqLLM(user_controls_input=user_input)
 
             usecase = user_input['selected_usecase']
-
+            
             if not usecase:
                 st.error("Error: No usecase selected")
                 return 
+            
+            if usecase.lower()=="basic chatbot":
 
-            #configuring the LLM
+                #configuring the LLM
+                model = obj_groqllm.get_llm_model()
 
-            obj_groqllm = GroqLLM(user_controls_input=user_input)
-            model = obj_groqllm.get_llm_model()
-
-            if not model:
-                st.error("Error: LLM model could not be initialized")
-                return
+                if not model:
+                    st.error("Error: LLM model could not be initialized")
+                    return
             
             
-            obj_graph_builder = GraphBuilder(model=model)
+                obj_graph_builder = GraphBuilder(model=model)
 
-            try:
+                try:
 
-                graph = obj_graph_builder.set_graph_builder(usecase=usecase)
+                    graph = obj_graph_builder.set_graph_builder(usecase=usecase)
                 
 
-            except Exception as e:
-                print(f"Error occurred while setting up graph: {e}")
-                return
+                except Exception as e:
+                    print(f"Error occurred while setting up graph: {e}")
+                    return
+                
+            else:
+
+                #configuring the LLM
+                model = obj_groqllm.get_tools_bind_llm()
+
+                if not model:
+                    st.error("Error: LLM model could not be initialized")
+                    return
+            
+            
+                obj_graph_builder = GraphBuilder(model=model)
+
+                try:
+
+                    graph = obj_graph_builder.set_graph_builder(usecase=usecase)
+                
+
+                except Exception as e:
+                    print(f"Error occurred while setting up graph: {e}")
+                    return
+
+
             
             try:
                 DisplayResultStreamlit(usecase, graph, user_message).display_result_on_ui()
