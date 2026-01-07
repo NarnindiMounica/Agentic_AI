@@ -17,6 +17,20 @@ class GroqLLM:
             llm = ChatGroq(model=selected_groq_model, groq_api_key=groq_api_key)
 
         except Exception as e:
-            raise ValueError(f"Erro occurred with exception: {e}")  
+            raise ValueError(f"Error occurred with exception: {e}")  
 
-        return llm     
+        return llm  
+
+    def get_tools_bind_llm(self, tools:list):
+
+        base_llm = self.get_llm_model() 
+
+        try:
+            tools_llm = base_llm.bind_tools(tools) 
+
+        except Exception as e:
+
+            raise ValueError(f"Error occurred while binding tools: {e}") 
+        
+        return tools_llm
+
