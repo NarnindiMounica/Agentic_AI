@@ -2,7 +2,7 @@ from langchain_tavily import TavilySearch
 from langchain_community.tools import WikipediaQueryRun
 from langchain_community.utilities import WikipediaAPIWrapper
 
-from langchain.prebuilt import ToolNode
+from langgraph.prebuilt import ToolNode
 
 
 class InbuiltTools:
@@ -21,7 +21,7 @@ class InbuiltTools:
 
         return given_tools
     
-    def get_tool_node(self, tool):
+    def get_tool_node(self, tool:list):
 
         "This function creates a tool node with the list of given tools"
 

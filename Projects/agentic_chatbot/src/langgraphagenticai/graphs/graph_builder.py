@@ -1,4 +1,6 @@
 from langgraph.graph import StateGraph, START, END
+from langgraph.prebuilt import tools_condition
+
 from src.langgraphagenticai.states.state import State
 from src.langgraphagenticai.nodes.basic_chatbot_node import BasicChatbotNode
 from src.langgraphagenticai.tools.inbuilt_tools import InbuiltTools
@@ -17,14 +19,16 @@ class GraphBuilder:
         and integrates it into the graph. The chatbot node is set as both the entry
         and exit point of the graph.
 
-        """   
+        """  
+
         self.basic_chatbot= BasicChatbotNode(self.llm)
         self.graph_builder.add_node("basic_chatbot_node", self.basic_chatbot.basic_chatbot_node ) 
 
         self.graph_builder.add_edge(START, "basic_chatbot_node")
         self.graph_builder.add_edge("basic_chatbot_node", END)
+
         return self.graph_builder
-    
+
     def tools_chatbot_build_graph(self):
         """
         Docstring for tools_chatbot_build_graph
@@ -32,13 +36,21 @@ class GraphBuilder:
         Builds a chatbot graph which is bind with tools using Langgraph.
         This method defines a workflow of the graph for a chatbot which is bind with tools.
 
-        """   
-        self.basic_chatbot= BasicChatbotNode(self.llm)
-        self.graph_builder.add_node("basic_chatbot_node", self.basic_chatbot.basic_chatbot_node ) 
+        """ 
+        get_tools = InbuiltTools().get_inbuilt_tools()
 
-        self.graph_builder.add_edge(START, "basic_chatbot_node")
-        self.graph_builder.add_edge("basic_chatbot_node", END)
+
+        self.basic_chatbot= BasicChatbotNode(self.llm)
+        self.graph_builder.add_node("tools_chatbot_node", self.basic_chatbot.tools_chatbot_node )
+        self.graph_builder.add_node("tools", InbuiltTools().get_tool_node(tool=get_tools)) 
+
+        self.graph_builder.add_edge(START, "tools_chatbot_node")
+        self.graph_builder.add_conditional_edges("tools_chatbot_node", tools_condition)
+        self.graph_builder.add_edge("tools", "tools_chatbot_node")
+        self.graph_builder.add_edge("tools_chatbot_node", END)
+
         return self.graph_builder
+
 
     def set_graph_builder(self, usecase):
 
