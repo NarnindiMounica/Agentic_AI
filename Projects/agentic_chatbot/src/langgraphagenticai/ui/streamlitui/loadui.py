@@ -33,7 +33,7 @@ class LoadStreamlitUI:
             self.user_controls['selected_usecase']=st.selectbox("Select Usecase", usecase_options)
             
 
-            if self.user_controls['selected_usecase'].lower() == "chatbot with tools":
+            if self.user_controls['selected_usecase'].lower() == "chatbot with tools" or "ai news":
                 
                 os.environ['TAVILY_API_KEY']=self.user_controls['TAVILY_API_KEY']=st.session_state['TAVILY_API_KEY']=st.text_input("Enter you Tavily API Key", type="password")
 
