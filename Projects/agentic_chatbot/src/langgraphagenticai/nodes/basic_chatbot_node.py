@@ -29,4 +29,4 @@ class BasicChatbotNode:
 
         response = self.llm.invoke(state['messages']) 
 
-        return {"messages": "Tools Integration: " + response.content}  
+        return {"messages": response}  

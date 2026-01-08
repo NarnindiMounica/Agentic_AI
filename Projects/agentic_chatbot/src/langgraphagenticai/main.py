@@ -1,8 +1,10 @@
 import streamlit as st
+import os
 
 from src.langgraphagenticai.ui.streamlitui.loadui import LoadStreamlitUI
 from src.langgraphagenticai.llms.groqllm import GroqLLM
 from src.langgraphagenticai.graphs.graph_builder import GraphBuilder
+from src.langgraphagenticai.tools.inbuilt_tools import InbuiltTools
 from src.langgraphagenticai.ui.streamlitui.display_result import DisplayResultStreamlit
 
 def load_langgraph_agenticai_app():
@@ -19,6 +21,7 @@ def load_langgraph_agenticai_app():
     #load UI
     ui=LoadStreamlitUI()
     user_input=ui.load_streamlit_ui()
+    
 
     if not user_input:
         st.error("Error: Failed to load user input from the UI")
@@ -58,9 +61,11 @@ def load_langgraph_agenticai_app():
                     return
                 
             else:
+                obj_inbuilt_tools = InbuiltTools()
+                user_tools = obj_inbuilt_tools.get_inbuilt_tools()
 
                 #configuring the LLM
-                model = obj_groqllm.get_tools_bind_llm()
+                model = obj_groqllm.get_tools_bind_llm(tools=user_tools)
 
                 if not model:
                     st.error("Error: LLM model could not be initialized")
