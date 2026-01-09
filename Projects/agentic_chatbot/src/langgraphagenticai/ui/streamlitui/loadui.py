@@ -44,10 +44,9 @@ class LoadStreamlitUI:
 
                 st.subheader("📰🔎📬 AI News Fetch")
 
-                self.user_controls['selected_time_range']=st.session_state['time_range']=st.selectbox("📅 Time Range", ['day', 'week', 'month', 'year'])
+                self.user_controls['selected_time_range']=st.session_state['time_range']=st.selectbox("📅 Time Range", ['day', 'week', 'month', 'year'], index=0)
 
-                st.button("🔎 Fetch News")
-                
-                     
+            if st.button("🔎 Fetch News", use_container_width=True):
+                self.user_controls['is_fetch_clicked']=st.session_state['is_fetch_clicked'] = True
 
         return self.user_controls            
