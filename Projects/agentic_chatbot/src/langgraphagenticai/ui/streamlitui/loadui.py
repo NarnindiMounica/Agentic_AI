@@ -33,11 +33,21 @@ class LoadStreamlitUI:
             self.user_controls['selected_usecase']=st.selectbox("Select Usecase", usecase_options)
             
 
-            if self.user_controls['selected_usecase'].lower() == "chatbot with tools" or "ai news":
+            if self.user_controls['selected_usecase'].lower() in [ "chatbot with tools" , "ai news"]:
                 
                 os.environ['TAVILY_API_KEY']=self.user_controls['TAVILY_API_KEY']=st.session_state['TAVILY_API_KEY']=st.text_input("Enter you Tavily API Key", type="password")
 
                 if not self.user_controls['TAVILY_API_KEY'] :
                     st.warning("⚠️ Please enter your tavily api key to proceed..")
+
+            if self.user_controls['selected_usecase'].lower() == "ai news":
+
+                st.subheader("📰🔎📬 AI News Fetch")
+
+                self.user_controls['selected_time_range']=st.session_state['time_range']=st.selectbox("📅 Time Range", ['day', 'week', 'month', 'year'])
+
+                st.button("🔎 Fetch News")
+                
+                     
 
         return self.user_controls            
