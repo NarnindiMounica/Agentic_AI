@@ -50,6 +50,26 @@ class GraphBuilder:
         self.graph_builder.add_edge("tools_chatbot_node", END)
 
         return self.graph_builder
+    
+
+    def ainews_bot_build_graph(self):
+        """
+        Docstring for ainews_bot_build_graph
+        
+        Builds a graph which gets ainews from bind tools, summarize results and saves it locally using Langgraph.
+        
+        """ 
+        self.graph_builder.add_node("fetch_ainews", )
+        self.graph_builder.add_node("summarize_news",)
+        self.graph_builder.add_node("saves_news",)
+
+        self.graph_builder.add_edge(START, "fetch_ainews")
+        self.graph_builder.add_edge("fetch_ainews", "summarize_news")
+        self.graph_builder.add_edge("summarize_news", "saves_news")
+        self.graph_builder.add_edge("saves_news", END)
+    
+        return self.graph_builder
+
 
 
     def set_graph_builder(self, usecase):
@@ -61,6 +81,11 @@ class GraphBuilder:
         
         if usecase.lower()=="chatbot with tools":
             graph_built = self.tools_chatbot_build_graph()
+            graph = graph_built.compile()
+            return graph
+        
+        if usecase.lower()=="ai news":
+            graph_built = self.ainews_bot_build_graph()
             graph = graph_built.compile()
             return graph
 
