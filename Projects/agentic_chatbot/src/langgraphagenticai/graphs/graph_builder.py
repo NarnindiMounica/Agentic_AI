@@ -59,12 +59,12 @@ class GraphBuilder:
         Builds a graph which gets ainews from bind tools, summarize results and saves it locally using Langgraph.
         
         """ 
-        self.graph_builder.add_node("fetch_ainews", )
+        self.graph_builder.add_node("fetch_news", )
         self.graph_builder.add_node("summarize_news",)
         self.graph_builder.add_node("saves_news",)
 
-        self.graph_builder.add_edge(START, "fetch_ainews")
-        self.graph_builder.add_edge("fetch_ainews", "summarize_news")
+        self.graph_builder.add_edge(START, "fetch_news")
+        self.graph_builder.add_edge("fetch_news", "summarize_news")
         self.graph_builder.add_edge("summarize_news", "saves_news")
         self.graph_builder.add_edge("saves_news", END)
     
