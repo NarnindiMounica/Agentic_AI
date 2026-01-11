@@ -1,6 +1,8 @@
 from tavily import TavilyClient
 from langchain_core.prompts import ChatPromptTemplate
 
+#https://docs.tavily.com/sdk/python/reference
+
 class AINewsNode:
 
     def __init__(self, llm):
@@ -22,6 +24,17 @@ class AINewsNode:
         dict: updated state with 'news_data' key containing fetched news.
 
         """  
+
+        frequency = state['messages'][0].content.lower()
+        self.state['frequency']= frequency
+        time_range_map= {"day":"d", "week":"w", "month": "m", "year":"y"}
+        days_map= {"day": 1, "week": 7, "month": 30, "year": 365}
+
+        response = self.tavily.search(query="Get Latest News in the field of Artificial Intelligence from India and globally",
+                                      topic="news",
+                                      time_range=self.state['frequency'],
+                                      max_results=3,
+                                      include_images=True)
         
 
 
