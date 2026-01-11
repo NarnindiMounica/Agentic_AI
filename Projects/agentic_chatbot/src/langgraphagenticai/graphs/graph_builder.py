@@ -4,6 +4,7 @@ from langgraph.prebuilt import tools_condition
 from src.langgraphagenticai.states.state import State
 from src.langgraphagenticai.nodes.basic_chatbot_node import BasicChatbotNode
 from src.langgraphagenticai.tools.inbuilt_tools import InbuiltTools
+from src.langgraphagenticai.nodes.ai_news_node import AINewsNode
 
 class GraphBuilder:
     def __init__(self, model ):
@@ -52,16 +53,17 @@ class GraphBuilder:
         return self.graph_builder
     
 
-    def ainews_bot_build_graph(self):
+    def ainews_bot_build_graph(self, llm):
         """
         Docstring for ainews_bot_build_graph
         
         Builds a graph which gets ainews from bind tools, summarize results and saves it locally using Langgraph.
         
         """ 
-        self.graph_builder.add_node("fetch_news", )
-        self.graph_builder.add_node("summarize_news",)
-        self.graph_builder.add_node("saves_news",)
+        ai_news_obj = AINewsNode(llm)
+        self.graph_builder.add_node("fetch_news", ai_news_obj.fetch_news)
+        self.graph_builder.add_node("summarize_news",ai_news_obj.summarize_news)
+        self.graph_builder.add_node("saves_news",ai_news_obj.save_news)
 
         self.graph_builder.add_edge(START, "fetch_news")
         self.graph_builder.add_edge("fetch_news", "summarize_news")
