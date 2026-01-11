@@ -82,5 +82,16 @@ class AINewsNode:
         state['summary'] = response.content
         self.state['summary'] = state['summary']
         return self.state
+    
+    def save_news(self, state:dict)->dict:
+        "This function saves the summarized news in local file"
+        frequency = self.state['frequency']
+        summary = self.state['summary']
+        filename=f"./AINews/{frequency}_summary.md"
+        with open(filename, "w") as file:
+            file.write(f" #{frequency.capitalize()} AI News Summary\n\n")
+            file.write(summary)
+        self.state['filename'] = filename
+        return self.state    
 
 
