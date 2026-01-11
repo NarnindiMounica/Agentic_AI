@@ -39,6 +39,25 @@ class AINewsNode:
         
         state['news_data'] = response.get("results", [])
         self.state['news_data'] = state['news_data']  
-        return state      
+        return state  
+
+    def summarize_news(self, state:dict)->dict:
+        """
+        Docstring for summarize_news
+        
+        Summarize the fetched news using an LLM
+
+        Args:
+            state(dict): the state dictionary containing "news_data"
+
+        Returns:
+        dict: updated state with "summary" key containing the summarized news.    
+
+        """ 
+
+        news_items = self.state['news_data']
+
+        prompt_tempate
+
 
 
