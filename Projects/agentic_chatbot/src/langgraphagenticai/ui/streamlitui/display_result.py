@@ -21,7 +21,7 @@ class DisplayResultStreamlit:
             with st.chat_message("assistant"):  
                     st.write(event['messages'][-1].content)  
 
-        else:
+        elif usecase.lower()=="chatbot with tools":
             response = graph.invoke({"messages": user_message})
             print(response)
 
@@ -36,7 +36,26 @@ class DisplayResultStreamlit:
                          st.write("Tool Call Ends") 
                 else:         
                     with st.chat_message("assistant"):
-                        st.success(message.content)         
+                        st.success(message.content)  
+
+        else:
+             frequency = self.user_message
+             with st.spinner("Fetching and summarizing news...⏳") :
+                  result = graph.invoke({"messages": frequency})
+                  try:
+                       #read the markdown file
+                       AI_News_Path = f"./AINews/{frequency.lower()}_summary.md"
+                       with open(AI_News_Path, "r") as file:
+                            markdown_content = file.read() 
+
+                        #display the markdown content in streamlit
+                       st.markdown(markdown_content, unsafe_allow_html=True)
+                  except FileNotFoundError: 
+                       st.error(f"News not generated or file not found: {AI_News_Path}")
+                  except Exception as e:
+                       st.error(f"an error occurred: {str(e)}")   
+                         
+                                                
                 
 
              

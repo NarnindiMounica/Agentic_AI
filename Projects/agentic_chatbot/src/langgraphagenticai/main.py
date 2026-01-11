@@ -60,7 +60,7 @@ def load_langgraph_agenticai_app():
                     print(f"Error occurred while setting up graph: {e}")
                     return
                 
-            else:
+            elif usecase.lower()=="chatbot with tools":
                 obj_inbuilt_tools = InbuiltTools()
                 user_tools = obj_inbuilt_tools.get_inbuilt_tools()
 
@@ -90,7 +90,10 @@ def load_langgraph_agenticai_app():
 
             except Exception as e:
                 print(f"Error occurred while displaying results on UI: {e}")
-                return    
+                return 
+
+            else:
+                  
 
 
 
