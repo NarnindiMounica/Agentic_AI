@@ -57,7 +57,30 @@ class AINewsNode:
 
         news_items = self.state['news_data']
 
-        prompt_tempate
+        prompt_template =ChatPromptTemplate.from_messages(
+            [
+                ("system", """Summarize AI News articles into markdown format. For each item include:
+                 -Date in **YYYY-MM-DD** format in IST Timezone
+                 -Concise sentences summary from latest news
+                 -Sort news by date wise (latest first)
+                 -Source URL as link
+                 Use format:
+                 ### [Date]
+                 - [Summary](URL)"""),
+                 ("user", "Articles:\n{articles}")
+                    
+            ]
 
+        )
+
+        articles_str = "\n\n".join([
+            f"Content: {item.get("content", '')}\n URL: {item.get("url", '')}\n Date: {item.get("published_date", "")}"
+            for item in news_items
+        ])
+
+        response = self.llm.invoke(prompt_template.format(articles=articles_str))
+        state['summary'] = response.content
+        self.state['summary'] = state['summary']
+        return self.state
 
 
