@@ -1,0 +1,8 @@
+fastapi
+langchain_core
+langchain_community
+langchain
+langgraph
+langchain_groq
+uvicorn
+langgraph-cli[inmem]
