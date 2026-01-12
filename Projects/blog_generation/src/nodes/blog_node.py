@@ -22,7 +22,7 @@ class BlogNode:
             return {"blog":{"title":response.content}}
         
 
-        def content_generation(self, state:BlogState):
+    def content_generation(self, state:BlogState):
             """
             Docstring for content_generation
             
@@ -37,7 +37,7 @@ class BlogNode:
                 system_prompt = prompt.format(topic=state['topic'])
 
                 response = self.llm.invoke(system_prompt)
-                return {"blog": {"title": state['blog']['title'], "content":response.content}}
+            return {"blog": {"title": state['blog']['title'], "content":response.content}}
             
 
 
