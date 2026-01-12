@@ -154,6 +154,7 @@ dependencies = [
     { name = "langchain-groq" },
     { name = "langgraph" },
     { name = "langgraph-cli", extra = ["inmem"] },
+    { name = "python-dotenv" },
     { name = "uvicorn" },
 ]
 
@@ -166,6 +167,7 @@ requires-dist = [
     { name = "langchain-groq", specifier = ">=1.1.1" },
     { name = "langgraph", specifier = ">=1.0.5" },
     { name = "langgraph-cli", extras = ["inmem"], specifier = ">=0.4.11" },
+    { name = "python-dotenv", specifier = ">=1.2.1" },
     { name = "uvicorn", specifier = ">=0.40.0" },
 ]
 

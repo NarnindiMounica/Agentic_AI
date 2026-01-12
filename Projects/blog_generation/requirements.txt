@@ -6,3 +6,4 @@ langgraph
 langchain_groq
 uvicorn
 langgraph-cli[inmem]
+python-dotenv
