@@ -7,3 +7,4 @@ langchain_groq
 uvicorn
 langgraph-cli[inmem]
 python-dotenv
+pydantic
