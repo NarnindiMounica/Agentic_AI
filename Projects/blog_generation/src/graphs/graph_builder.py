@@ -3,6 +3,8 @@ from langgraph.graph import StateGraph, START, END
 from src.states.state import BlogState
 from src.nodes.blog_node import BlogNode
 
+from src.llms.groq_llm import GroqLLM
+
 
 class GraphBuilder:
     def __init__(self, llm):
@@ -27,3 +29,13 @@ class GraphBuilder:
             graph_builder = self.build_topic_graph()
             return graph_builder.compile()
 
+
+
+#below code is for the langsmith langgraph studio
+llm = GroqLLM().get_groq_llm()
+
+#get the graph
+
+graph_builder = GraphBuilder(llm)
+
+graph=graph_builder.build_topic_graph().compile()
