@@ -1,4 +1,4 @@
-from src.states.state import BlogState
+from src.states.state import BlogState, Blog
 
 class BlogNode:
     def __init__(self, llm):
@@ -48,13 +48,19 @@ class BlogNode:
             """
          if "topic" in state and "language" in state:
               prompt = """
-                        You are an expert blog writer, Use markdown formatting
-                        and generate a detailed blog content with detailed
-                        breakdown for the topic {topic}in given language {language}"""
-              system_prompt = prompt.format(language=state['language'], content=state['topic'])
+                    Translate the following content into {current_language}
+                    -Maintain the original tone, style and formatting,
+                    -Adapt cultural references and idioms to be appropriate for {current_language}
 
-              response = self.llm.invoke(system_prompt)
-              return {"blog": {"content": response.content}}
+                    Original Content:
+                    {blog_content}    
+                    """
+              system_prompt = prompt.format(current_language=state['language'], blog_content=state['blog']['content'])
+
+              response = self.llm.with_structured_output(Blog).invoke(system_prompt)
+              return {"blog": {"title": response.title, "content": response.content}}
+         
+         
               
 
             
