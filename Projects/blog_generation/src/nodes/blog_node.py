@@ -31,13 +31,32 @@ class BlogNode:
             """
             if "topic" in state or state['topic']:
                 prompt = """
-                        You are and expert blog writer, Use markdown formatting
+                        You are an expert blog writer, Use markdown formatting
                         and generate a detailed blog content with detailed
                          breakdown for the topic {topic}"""
                 system_prompt = prompt.format(topic=state['topic'])
 
                 response = self.llm.invoke(system_prompt)
             return {"blog": {"title": state['blog']['title'], "content":response.content}}
+    
+    def language_translation(self, state:BlogState):
+         """
+            Docstring for language_translation
+            
+            this method is used to translate the generated content for the specified topic
+
+            """
+         if "topic" in state and "language" in state:
+              prompt = """
+                        You are an expert blog writer, Use markdown formatting
+                        and generate a detailed blog content with detailed
+                        breakdown for the topic {topic}in given language {language}"""
+              system_prompt = prompt.format(language=state['language'], content=state['topic'])
+
+              response = self.llm.invoke(system_prompt)
+              return {"blog": {"content": response.content}}
+              
+
             
 
 
