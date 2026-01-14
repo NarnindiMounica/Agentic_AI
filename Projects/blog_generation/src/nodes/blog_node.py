@@ -60,7 +60,19 @@ class BlogNode:
               response = self.llm.with_structured_output(Blog).invoke(system_prompt)
               return {"blog": {"title": response.title, "content": response.content}}
          
+    def language_router(self, state:BlogState):
+         return {"language": state['language']}
+
+    def language_decider(Self, state:BlogState): 
          
+         if state['language'].lower()=="hindi":
+              return "hindi"
+         elif state['language'].lower()=="telugu":
+              return "telugu"
+
+
+         
+
               
 
             

@@ -5,6 +5,8 @@ from src.nodes.blog_node import BlogNode
 
 from src.llms.groq_llm import GroqLLM
 
+from src.nodes.blog_node import BlogNode
+
 
 class GraphBuilder:
     def __init__(self, llm):
@@ -29,22 +31,19 @@ class GraphBuilder:
 
         self.graph.add_node("title_creation",self.blog_node_obj.title_creation)
         self.graph.add_node("content_generation",self.blog_node_obj.content_generation)
-        self.graph.add_node("language_router", self.blog_node_obj.)
-        self.graph.add_node("hindi_translation", self.blog_node_obj.)
-        self.graph.add_node("telugu_translation", self.blog_node_obj.)
+        self.graph.add_node("language_router", self.blog_node_obj.language_router)
+        self.graph.add_node("hindi_translation", lambda state: self.blog_node_obj.language_translation({**state, "language":"hindi"}))
+        self.graph.add_node("telugu_translation", lambda state: self.blog_node_obj.language_translation({**state, "language":"telugu"}))
 
 
         self.graph.add_edge(START, "title_creation")
         self.graph.add_edge("title_creation", "content_generation")
         self.graph.add_edge("content_generation", "language_router")
-        self.graph.add_conditional_edges("language_router", language_decider, 
+        self.graph.add_conditional_edges("language_router", self.blog_node_obj.language_decider, 
                                          {"hindi": "hindi_translation", 
                                           "telugu": "telugu_translation"})
 
-
         return self.graph
-
-
     
     def setup_graph(self, usecase):
         if usecase=="topic":
