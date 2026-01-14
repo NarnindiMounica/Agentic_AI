@@ -1,5 +1,8 @@
 from fastapi import FastAPI, Request
 import uvicorn
+import asyncio
+
+lock = asyncio.Lock()
 
 from src.graphs.graph_builder import GraphBuilder
 from src.llms.groq_llm import GroqLLM
@@ -18,25 +21,25 @@ os.environ["LANGSMITH_API_KEY"] = os.getenv("LANGCHAIN_API_KEY")
 @app.post("/blogs")
 async def create_blogs(request:Request):
     data= await request.json()
-    topic= data.get("topic", "")
-    language = data.get("language", "")
+    async with lock:
+        topic= data.get("topic", "")
+        language = data.get("language", "")
 
-    #get the model
+        #get the model
 
-    groqllm = GroqLLM()
-    llm= groqllm.get_groq_llm()
+        groqllm = GroqLLM()
+        llm= groqllm.get_groq_llm()
 
-    #get the graph
-    graph_builder = GraphBuilder(llm=llm)
-    if topic:
-        graph = graph_builder.setup_graph(usecase="topic")
-        state= graph.invoke({"topic": topic})
+        #get the graph
+        graph_builder = GraphBuilder(llm=llm)
+        if language and topic:
+            graph = graph_builder.setup_graph(usecase="language") 
+            state= graph.invoke({"topic":topic, "language":language})
+        elif topic:
+            graph = graph_builder.setup_graph(usecase="topic")
+            state= graph.invoke({"topic": topic}) 
 
-    elif topic and language:
-        graph = graph_builder.setup_graph(usecase="language") 
-        state= graph.invoke({"topic":topic, "language":language})   
-
-    return {"data":state}   
+        return {"data":state}   
 
 
 if __name__=="__main__":
